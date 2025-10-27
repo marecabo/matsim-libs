@@ -29,6 +29,7 @@ import org.matsim.api.core.v01.population.*;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.groups.QSimConfigGroup;
 import org.matsim.core.config.groups.QSimConfigGroup.PersonInitializedEventsSetting;
+import org.matsim.core.config.groups.QSimConfigGroup.VehiclesSource;
 import org.matsim.core.gbl.Gbl;
 import org.matsim.core.mobsim.framework.AgentSource;
 import org.matsim.core.mobsim.framework.MobsimAgent;
@@ -188,6 +189,16 @@ public final class PopulationAgentSource implements AgentSource {
 				// to resolve this.)
 
 			} else {
+				// if VehiclesSource==fromVehiclesData, only place vehicle if it was assigned to
+				// this person. This prevents placing (possibly shared) vehicles referenced in
+				// routes of legs (multiple times). Such vehicles should be created and placed
+				// by their own vehicle source. hrewald Oct '25
+				if (vehiclesSource.equals(VehiclesSource.fromVehiclesData)
+						&& !(VehicleUtils.hasVehicleId(person, leg.getMode())
+								&& VehicleUtils.getVehicleId(person, leg.getMode()).equals(vehicleId))) {
+					continue;
+				}
+
 				this.seenVehicleIds.put( vehicleId, vehicleLinkId ) ;
 //				qsim.createAndParkVehicleOnLink(vehicle, vehicleLinkId);
 				qsim.addParkedVehicle( this.qVehicleFactory.createQVehicle( vehicle ) , vehicleLinkId );
