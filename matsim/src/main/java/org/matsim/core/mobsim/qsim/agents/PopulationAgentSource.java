@@ -49,8 +49,6 @@ import java.util.Map;
 public final class PopulationAgentSource implements AgentSource {
 	private static final Logger log = LogManager.getLogger( PopulationAgentSource.class );
 
-	private static final String IS_ROUTING_ONLY_VEHICLE_ATTRIBUTE = "isRoutingOnly";
-
 	private final Population population;
 	private final AgentFactory agentFactory;
 	private final QVehicleFactory qVehicleFactory;
@@ -163,7 +161,7 @@ public final class PopulationAgentSource implements AgentSource {
 				throw new RuntimeException( msg ) ;
 			}
 
-			if (isRoutingOnlyVehicle(vehicle)) {
+			if (!(VehicleUtils.hasVehicleId(person, leg.getMode()) && VehicleUtils.getVehicleId(person, leg.getMode()).equals(vehicleId))) {
 				// This is a routing-only vehicle, which is not actually picked up by any agent
 				// and is required for WithinDay-functionality and (possibly shared) vehicles,
 				// that are not assigned exclusively to persons. It is replaced by a real
@@ -245,20 +243,6 @@ public final class PopulationAgentSource implements AgentSource {
 			}
 		}
 		throw new RuntimeException("Don't know where to put a vehicle for this agent.");
-	}
-
-	public static void setIsRoutingOnlyVehicle(Vehicle vehicle) {
-		vehicle.getAttributes().putAttribute(IS_ROUTING_ONLY_VEHICLE_ATTRIBUTE, true);
-	}
-
-	public static void clearIsRoutingOnlyVehicle(Vehicle vehicle) {
-		vehicle.getAttributes().removeAttribute(IS_ROUTING_ONLY_VEHICLE_ATTRIBUTE);
-	}
-
-	public static boolean isRoutingOnlyVehicle(Vehicle vehicle) {
-		Boolean isRoutingOnlyVehicle = (Boolean) vehicle.getAttributes()
-				.getAttribute(IS_ROUTING_ONLY_VEHICLE_ATTRIBUTE);
-		return isRoutingOnlyVehicle != null && isRoutingOnlyVehicle;
 	}
 
 }
