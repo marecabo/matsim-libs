@@ -29,7 +29,6 @@ import org.matsim.api.core.v01.population.*;
 import org.matsim.core.config.Config;
 import org.matsim.core.config.groups.QSimConfigGroup;
 import org.matsim.core.config.groups.QSimConfigGroup.PersonInitializedEventsSetting;
-import org.matsim.core.config.groups.QSimConfigGroup.VehiclesSource;
 import org.matsim.core.gbl.Gbl;
 import org.matsim.core.mobsim.framework.AgentSource;
 import org.matsim.core.mobsim.framework.MobsimAgent;
@@ -49,6 +48,8 @@ import java.util.Map;
 
 public final class PopulationAgentSource implements AgentSource {
 	private static final Logger log = LogManager.getLogger( PopulationAgentSource.class );
+
+	private static final String IS_ROUTING_ONLY_VEHICLE_ATTRIBUTE = "isRoutingOnly";
 
 	private final Population population;
 	private final AgentFactory agentFactory;
@@ -142,9 +143,6 @@ public final class PopulationAgentSource implements AgentSource {
 
 			// if we are here, we haven't seen the mode before in this plan
 
-			// now memorizing mode and its vehicle ID:
-			seenModes.put(leg.getMode(),vehicleId);
-
 			// find the vehicle from the vehicles container.  It should be there, see automatic vehicle creation in PrepareForSim.
 			Vehicle vehicle = qsim.getScenario().getVehicles().getVehicles().get(vehicleId);
 			if ( vehicle==null ) {
@@ -164,6 +162,18 @@ public final class PopulationAgentSource implements AgentSource {
 				}
 				throw new RuntimeException( msg ) ;
 			}
+
+			if (isRoutingOnlyVehicle(vehicle)) {
+				// This is a routing-only vehicle, which is not actually picked up by any agent
+				// and is required for WithinDay-functionality and (possibly shared) vehicles,
+				// that are not assigned exclusively to persons. It is replaced by a real
+				// vehicle when the agent actually starts its trip e.g,
+				// SharingEngine>SharingLogic in shared_mobility. hrewald, oct'25
+				continue; // do not place it in the simulation
+			}
+
+			// now memorizing mode and its vehicle ID:
+			seenModes.put(leg.getMode(), vehicleId);
 
 			// find the link ID of where to place the vehicle:
 			Id<Link> vehicleLinkId = findVehicleLink(person, vehicle);
@@ -189,16 +199,6 @@ public final class PopulationAgentSource implements AgentSource {
 				// to resolve this.)
 
 			} else {
-				// if VehiclesSource==fromVehiclesData, only place vehicle if it was assigned to
-				// this person. This prevents placing (possibly shared) vehicles referenced in
-				// routes of legs (multiple times). Such vehicles should be created and placed
-				// by their own vehicle source. hrewald Oct '25
-				if (vehiclesSource.equals(VehiclesSource.fromVehiclesData)
-						&& !(VehicleUtils.hasVehicleId(person, leg.getMode())
-								&& VehicleUtils.getVehicleId(person, leg.getMode()).equals(vehicleId))) {
-					continue;
-				}
-
 				this.seenVehicleIds.put( vehicleId, vehicleLinkId ) ;
 //				qsim.createAndParkVehicleOnLink(vehicle, vehicleLinkId);
 				qsim.addParkedVehicle( this.qVehicleFactory.createQVehicle( vehicle ) , vehicleLinkId );
@@ -245,6 +245,20 @@ public final class PopulationAgentSource implements AgentSource {
 			}
 		}
 		throw new RuntimeException("Don't know where to put a vehicle for this agent.");
+	}
+
+	public static void setIsRoutingOnlyVehicle(Vehicle vehicle) {
+		vehicle.getAttributes().putAttribute(IS_ROUTING_ONLY_VEHICLE_ATTRIBUTE, true);
+	}
+
+	public static void clearIsRoutingOnlyVehicle(Vehicle vehicle) {
+		vehicle.getAttributes().removeAttribute(IS_ROUTING_ONLY_VEHICLE_ATTRIBUTE);
+	}
+
+	public static boolean isRoutingOnlyVehicle(Vehicle vehicle) {
+		Boolean isRoutingOnlyVehicle = (Boolean) vehicle.getAttributes()
+				.getAttribute(IS_ROUTING_ONLY_VEHICLE_ATTRIBUTE);
+		return isRoutingOnlyVehicle != null && isRoutingOnlyVehicle;
 	}
 
 }

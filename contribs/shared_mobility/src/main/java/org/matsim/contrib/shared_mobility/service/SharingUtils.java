@@ -15,6 +15,7 @@ import org.matsim.contrib.shared_mobility.service.events.SharingFailedPickupEven
 import org.matsim.contrib.shared_mobility.service.events.SharingPickupEvent;
 import org.matsim.contrib.shared_mobility.service.events.SharingVehicleEvent;
 import org.matsim.core.events.MatsimEventsReader;
+import org.matsim.core.mobsim.qsim.agents.PopulationAgentSource;
 import org.matsim.core.mobsim.qsim.components.QSimComponentsConfigurator;
 import org.matsim.vehicles.Vehicle;
 import org.matsim.vehicles.VehicleType;
@@ -131,8 +132,9 @@ public class SharingUtils {
 		if (routingVehicle != null) {
 			return routingVehicle;
 		} else {
-			VehicleType vehicleType = SharingUtils.getOrCreateAndAddVehicleType(serviceConfig, vehicles);
+			VehicleType vehicleType = getOrCreateAndAddVehicleType(serviceConfig, vehicles);
 			routingVehicle = vehicles.getFactory().createVehicle(routingVehicleId, vehicleType);
+			PopulationAgentSource.setIsRoutingOnlyVehicle(routingVehicle);
 			vehicles.addVehicle(routingVehicle);
 		}
 		return routingVehicle;
