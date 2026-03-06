@@ -637,7 +637,7 @@ public class NoiseIT {
 
 			}
 
-			Assertions.assertEquals(rls90NoiseImmission.calculateResultingNoiseImmission(linkId2IsolatedImmission.values()), immissionPerReceiverPointId.get(rp.getId()), MatsimTestUtils.EPSILON, "Wrong amount of immission!");
+			Assertions.assertEquals(RLS90NoiseImmission.calculateResultingNoiseImmission(linkId2IsolatedImmission.values()), immissionPerReceiverPointId.get(rp.getId()), MatsimTestUtils.EPSILON, "Wrong amount of immission!");
 
 		}
 

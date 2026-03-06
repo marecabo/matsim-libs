@@ -123,7 +123,7 @@ final class MergeNoiseOutput {
 		Table csvOutputMerged = Table.create(StringColumn.create("Link Id"), DoubleColumn.create("value"));
 
 		for (double time = minTime; time <= maxTime; time += 3600.) {
-			String path = pathParameter + label + "_" + this.round(time, 1) + ".csv";
+			String path = pathParameter + label + "_" + round(time, 1) + ".csv";
 
 			// Read the file
 			Table table = Table.read().csv(CsvReadOptions.builder(IOUtils.getBufferedReader(path))

@@ -66,9 +66,9 @@ public final class VehicleWriterV1 extends MatsimXmlWriter {
 
 	private void writeRootElement() throws UncheckedIOException {
 		atts.clear();
-		atts.add(this.createTuple(XMLNS, MatsimXmlWriter.MATSIM_NAMESPACE));
-		atts.add(this.createTuple(XMLNS + ":xsi", DEFAULTSCHEMANAMESPACELOCATION));
-		atts.add(this.createTuple("xsi:schemaLocation", MATSIM_NAMESPACE + " " + DEFAULT_DTD_LOCATION + "vehicleDefinitions_v1.0.xsd"));
+		atts.add(MatsimXmlWriter.createTuple(XMLNS, MatsimXmlWriter.MATSIM_NAMESPACE));
+		atts.add(MatsimXmlWriter.createTuple(XMLNS + ":xsi", DEFAULTSCHEMANAMESPACELOCATION));
+		atts.add(MatsimXmlWriter.createTuple("xsi:schemaLocation", MATSIM_NAMESPACE + " " + DEFAULT_DTD_LOCATION + "vehicleDefinitions_v1.0.xsd"));
 		this.writeStartTag(VehicleSchemaV1Names.VEHICLEDEFINITIONS, atts);
 		this.writeVehicleTypes(this.vehicleTypes);
 		this.writeVehicles(this.vehicles);
@@ -79,8 +79,8 @@ public final class VehicleWriterV1 extends MatsimXmlWriter {
 		List<Vehicle> sortedVehicles = veh.values().stream().sorted(comparing(Vehicle::getId)).collect(toList());
 		for (Vehicle v : sortedVehicles) {
 			atts.clear();
-			atts.add(this.createTuple(VehicleSchemaV1Names.ID, v.getId().toString()));
-			atts.add(this.createTuple(VehicleSchemaV1Names.TYPE, v.getType().getId().toString()));
+			atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.ID, v.getId().toString()));
+			atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.TYPE, v.getType().getId().toString()));
 			this.writeStartTag(VehicleSchemaV1Names.VEHICLE, atts, true);
 		}
 	}
@@ -92,7 +92,7 @@ public final class VehicleWriterV1 extends MatsimXmlWriter {
 				.collect(toList());
 		for (VehicleType vt : sortedVehicleTypes) {
 			atts.clear();
-			atts.add(this.createTuple(VehicleSchemaV1Names.ID, vt.getId().toString()));
+			atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.ID, vt.getId().toString()));
 			this.writeStartTag(VehicleSchemaV1Names.VEHICLETYPE, atts);
 			if (vt.getDescription() != null) {
 				this.writeStartTag(VehicleSchemaV1Names.DESCRIPTION, null);
@@ -104,17 +104,17 @@ public final class VehicleWriterV1 extends MatsimXmlWriter {
 			}
 			if (!Double.isNaN(vt.getLength())){
 				atts.clear();
-				atts.add(this.createTuple(VehicleSchemaV1Names.METER, Double.toString(vt.getLength())));
+				atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.METER, Double.toString(vt.getLength())));
 				this.writeStartTag(VehicleSchemaV1Names.LENGTH, atts, true);
 			}
 			if (!Double.isNaN(vt.getWidth())){
 				atts.clear();
-				atts.add(this.createTuple(VehicleSchemaV1Names.METER, Double.toString(vt.getWidth())));
+				atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.METER, Double.toString(vt.getWidth())));
 				this.writeStartTag(VehicleSchemaV1Names.WIDTH, atts, true);
 			}
 			if (!Double.isNaN(vt.getMaximumVelocity()) && !Double.isInfinite(vt.getMaximumVelocity())){
 				atts.clear();
-				atts.add(this.createTuple(VehicleSchemaV1Names.METERPERSECOND, Double.toString(vt.getMaximumVelocity())));
+				atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.METERPERSECOND, Double.toString(vt.getMaximumVelocity())));
 				this.writeStartTag(VehicleSchemaV1Names.MAXIMUMVELOCITY, atts, true);
 			}
 			if (vt.getEngineInformation() != null && !vt.getEngineInformation().getAttributes().isEmpty()) {
@@ -122,16 +122,16 @@ public final class VehicleWriterV1 extends MatsimXmlWriter {
 				this.writeEngineInformation(vt.getEngineInformation());
 			}
 			atts.clear();
-			atts.add(this.createTuple(VehicleSchemaV1Names.SECONDSPERPERSON, VehicleUtils.getAccessTime(vt)));
+			atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.SECONDSPERPERSON, VehicleUtils.getAccessTime(vt)));
 			this.writeStartTag(VehicleSchemaV1Names.ACCESSTIME, atts, true);
 			atts.clear();
-			atts.add(this.createTuple(VehicleSchemaV1Names.SECONDSPERPERSON, VehicleUtils.getEgressTime(vt)));
+			atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.SECONDSPERPERSON, VehicleUtils.getEgressTime(vt)));
       this.writeStartTag(VehicleSchemaV1Names.EGRESSTIME, atts, true);
       atts.clear();
-			atts.add(this.createTuple(VehicleSchemaV1Names.MODE, VehicleUtils.getDoorOperationMode(vt).toString()));
+			atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.MODE, VehicleUtils.getDoorOperationMode(vt).toString()));
       this.writeStartTag(VehicleSchemaV1Names.DOOROPERATION, atts, true);
       atts.clear();
-      atts.add(this.createTuple(VehicleSchemaV1Names.PCE, vt.getPcuEquivalents()));
+      atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.PCE, vt.getPcuEquivalents()));
       this.writeStartTag(VehicleSchemaV1Names.PASSENGERCAREQUIVALENTS, atts, true);
 			this.writeEndTag(VehicleSchemaV1Names.VEHICLETYPE);
 		}
@@ -148,7 +148,7 @@ public final class VehicleWriterV1 extends MatsimXmlWriter {
 		atts.clear();
 //		log.warn("EngineInformation: " + ei + " fc: " + ei.getFuelConsumption());
 		if((VehicleUtils.getFuelConsumption(ei) != null)) {
-			atts.add(this.createTuple(VehicleSchemaV1Names.LITERPERMETER, VehicleUtils.getFuelConsumption(ei)));
+			atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.LITERPERMETER, VehicleUtils.getFuelConsumption(ei)));
 			this.writeStartTag(VehicleSchemaV1Names.GASCONSUMPTION, atts, true);
 		}
 		this.writeEndTag(VehicleSchemaV1Names.ENGINEINFORMATION);
@@ -158,12 +158,12 @@ public final class VehicleWriterV1 extends MatsimXmlWriter {
 		this.writeStartTag(VehicleSchemaV1Names.CAPACITY, null);
 		if (cap.getSeats() != null) {
 			atts.clear();
-			atts.add(this.createTuple(VehicleSchemaV1Names.PERSONS, cap.getSeats()));
+			atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.PERSONS, cap.getSeats()));
 			this.writeStartTag(VehicleSchemaV1Names.SEATS, atts, true);
 		}
 		if (cap.getStandingRoom() != null) {
 			atts.clear();
-			atts.add(this.createTuple(VehicleSchemaV1Names.PERSONS, cap.getStandingRoom()));
+			atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.PERSONS, cap.getStandingRoom()));
 			this.writeStartTag(VehicleSchemaV1Names.STANDINGROOM, atts, true);
 		}
 		if( cap.getVolumeInCubicMeters() != null && !Double.isInfinite(cap.getVolumeInCubicMeters())) {
@@ -175,7 +175,7 @@ public final class VehicleWriterV1 extends MatsimXmlWriter {
 	private void writeFreightCapacity(double fc) throws UncheckedIOException {
 		this.writeStartTag(VehicleSchemaV1Names.FREIGHTCAPACITY, null);
 		atts.clear();
-		atts.add(this.createTuple(VehicleSchemaV1Names.CUBICMETERS, Double.toString(fc)));
+		atts.add(MatsimXmlWriter.createTuple(VehicleSchemaV1Names.CUBICMETERS, Double.toString(fc)));
 		this.writeStartTag(VehicleSchemaV1Names.VOLUME, atts, true);
 		this.writeEndTag(VehicleSchemaV1Names.FREIGHTCAPACITY);
 	}

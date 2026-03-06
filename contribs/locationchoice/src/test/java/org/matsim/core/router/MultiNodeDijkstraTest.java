@@ -83,8 +83,8 @@ public class MultiNodeDijkstraTest {
 		fromNodes.add(new InitialNode(f.network.getNodes().get(Id.create(3, Node.class)), 2.0, 2.0));
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(5, Node.class)), 0.0, 0.0));
 		
-		Node fromNode = dijkstra.createImaginaryNode(fromNodes);
-		Node toNode = dijkstra.createImaginaryNode(toNodes);
+		Node fromNode = MultiNodeDijkstra.createImaginaryNode(fromNodes);
+		Node toNode = MultiNodeDijkstra.createImaginaryNode(toNodes);
 
 		Path p = createPath(dijkstra, fromNode, toNode);
 
@@ -141,8 +141,8 @@ public class MultiNodeDijkstraTest {
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(5, Node.class)), 4.0, 4.0));
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(6, Node.class)), 1.0, 1.0));
 		
-		Node fromNode = dijkstra.createImaginaryNode(fromNodes);
-		Node toNode = dijkstra.createImaginaryNode(toNodes);
+		Node fromNode = MultiNodeDijkstra.createImaginaryNode(fromNodes);
+		Node toNode = MultiNodeDijkstra.createImaginaryNode(toNodes);
 
 		Path p = createPath(dijkstra, fromNode, toNode);
 		
@@ -200,8 +200,8 @@ public class MultiNodeDijkstraTest {
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(5, Node.class)), 4.0, 4.0));
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(6, Node.class)), 1.0, 1.0));
 		
-		Node fromNode = dijkstra.createImaginaryNode(fromNodes);
-		Node toNode = dijkstra.createImaginaryNode(toNodes);
+		Node fromNode = MultiNodeDijkstra.createImaginaryNode(fromNodes);
+		Node toNode = MultiNodeDijkstra.createImaginaryNode(toNodes);
 
 		Path p = createPath(dijkstra, fromNode, toNode);
 
@@ -265,8 +265,8 @@ public class MultiNodeDijkstraTest {
 		fromNodes.add(new InitialNode(f.network.getNodes().get(Id.create(4, Node.class)), 4.0, 4.0));
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(5, Node.class)), 0.0, 0.0));
 		
-		Node fromNode = dijkstra.createImaginaryNode(fromNodes);
-		Node toNode = dijkstra.createImaginaryNode(toNodes);
+		Node fromNode = MultiNodeDijkstra.createImaginaryNode(fromNodes);
+		Node toNode = MultiNodeDijkstra.createImaginaryNode(toNodes);
 
 		Path p = createPath(dijkstra, fromNode, toNode);
 		
@@ -302,8 +302,8 @@ public class MultiNodeDijkstraTest {
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(8, Node.class)), 3.0, 3.0));
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(5, Node.class)), 1.0, 1.0));
 		
-		Node fromNode = dijkstra.createImaginaryNode(fromNodes);
-		Node toNode = dijkstra.createImaginaryNode(toNodes);
+		Node fromNode = MultiNodeDijkstra.createImaginaryNode(fromNodes);
+		Node toNode = MultiNodeDijkstra.createImaginaryNode(toNodes);
 
 		Path p = createPath(dijkstra, fromNode, toNode);
 		
@@ -346,8 +346,8 @@ public class MultiNodeDijkstraTest {
 		fromNodes.add(new InitialNode(f.network.getNodes().get(Id.create(2, Node.class)), 1.0, 1.0));
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(2, Node.class)), 3.0, 3.0));
 		
-		Node fromNode = dijkstra.createImaginaryNode(fromNodes);
-		Node toNode = dijkstra.createImaginaryNode(toNodes);
+		Node fromNode = MultiNodeDijkstra.createImaginaryNode(fromNodes);
+		Node toNode = MultiNodeDijkstra.createImaginaryNode(toNodes);
 
 		Path p = createPath(dijkstra, fromNode, toNode);
 		
@@ -388,8 +388,8 @@ public class MultiNodeDijkstraTest {
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(4, Node.class)), 1.0, 1.0));
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(6, Node.class)), 3.0, 3.0));
 		
-		Node fromNode = dijkstra.createImaginaryNode(fromNodes);
-		Node toNode = dijkstra.createImaginaryNode(toNodes);
+		Node fromNode = MultiNodeDijkstra.createImaginaryNode(fromNodes);
+		Node toNode = MultiNodeDijkstra.createImaginaryNode(toNodes);
 
 		Path p = createPath(dijkstra, fromNode, toNode);
 		
@@ -430,8 +430,8 @@ public class MultiNodeDijkstraTest {
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(4, Node.class)), 8.0, 8.0));
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(6, Node.class)), 3.0, 3.0));
 		
-		Node fromNode = dijkstra.createImaginaryNode(fromNodes);
-		Node toNode = dijkstra.createImaginaryNode(toNodes);
+		Node fromNode = MultiNodeDijkstra.createImaginaryNode(fromNodes);
+		Node toNode = MultiNodeDijkstra.createImaginaryNode(toNodes);
 
 		Path p = createPath(dijkstra, fromNode, toNode);
 		
@@ -471,8 +471,8 @@ public class MultiNodeDijkstraTest {
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(5, Node.class)), 1.0, 1.0));
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(3, Node.class)), 3.0, 3.0)); // cannot be reached!
 		
-		Node fromNode = dijkstra.createImaginaryNode(fromNodes);
-		Node toNode = dijkstra.createImaginaryNode(toNodes);
+		Node fromNode = MultiNodeDijkstra.createImaginaryNode(fromNodes);
+		Node toNode = MultiNodeDijkstra.createImaginaryNode(toNodes);
 
 		Path p = createPath(dijkstra, fromNode, toNode);
 		
@@ -512,8 +512,8 @@ public class MultiNodeDijkstraTest {
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(5, Node.class)), 1.0, 1.0));
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(3, Node.class)), 3.0, 3.0));
 		
-		Node fromNode = dijkstra.createImaginaryNode(fromNodes);
-		Node toNode = dijkstra.createImaginaryNode(toNodes);
+		Node fromNode = MultiNodeDijkstra.createImaginaryNode(fromNodes);
+		Node toNode = MultiNodeDijkstra.createImaginaryNode(toNodes);
 
 		Path p = createPath(dijkstra, fromNode, toNode);
 		
@@ -548,8 +548,8 @@ public class MultiNodeDijkstraTest {
 		fromNodes.add(new InitialNode(f.network.getNodes().get(Id.create(1, Node.class)), 1.0, 1.0));
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(2, Node.class)), 3.0, 3.0));
 		
-		Node fromNode = dijkstra.createImaginaryNode(fromNodes);
-		Node toNode = dijkstra.createImaginaryNode(toNodes);
+		Node fromNode = MultiNodeDijkstra.createImaginaryNode(fromNodes);
+		Node toNode = MultiNodeDijkstra.createImaginaryNode(toNodes);
 
 		Path p = createPath(dijkstra, fromNode, toNode);
 		
@@ -584,8 +584,8 @@ public class MultiNodeDijkstraTest {
 		fromNodes.add(new InitialNode(f.network.getNodes().get(Id.create(1, Node.class)), 10000.0, 10000.0));
 		toNodes.add(new InitialNode(f.network.getNodes().get(Id.create(6, Node.class)), 20000.0, 20000.0));
 		
-		Node fromNode = dijkstra.createImaginaryNode(fromNodes);
-		Node toNode = dijkstra.createImaginaryNode(toNodes);
+		Node fromNode = MultiNodeDijkstra.createImaginaryNode(fromNodes);
+		Node toNode = MultiNodeDijkstra.createImaginaryNode(toNodes);
 
 		Path p = createPath(dijkstra, fromNode, toNode);
 		

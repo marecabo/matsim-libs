@@ -29,7 +29,7 @@ class EVMobsimListenerAndWriter implements MobsimBeforeCleanupListener {
             try {
                 csvPrinter = new CSVPrinter(Files.newBufferedWriter(Paths.get(controlerIO.getIterationFilename(iterationCounter.getIterationNumber(), "chargerXYData.csv"))), CSVFormat.DEFAULT.withDelimiter(';').
                         withHeader("X", "Y", "chargeEndTime", "Time", "ChargerId", "chargingVehicles"));
-                List<ChargerToXY.XYDataContainer> dataContainers = chargerToXY.getDataContainers();
+                List<ChargerToXY.XYDataContainer> dataContainers = ChargerToXY.getDataContainers();
 
                 for (ChargerToXY.XYDataContainer dataContainer : dataContainers) {
 

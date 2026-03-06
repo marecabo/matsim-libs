@@ -1000,9 +1000,9 @@ class MemoryUsageCalculator {
         try {
             System.gc();
             long fSLEEP_INTERVAL = 100;
-            Thread.currentThread().sleep(fSLEEP_INTERVAL);
+            Thread.sleep(fSLEEP_INTERVAL);
             System.runFinalization();
-            Thread.currentThread().sleep(fSLEEP_INTERVAL);
+            Thread.sleep(fSLEEP_INTERVAL);
         } catch (InterruptedException ex) {
             ex.printStackTrace();
         }

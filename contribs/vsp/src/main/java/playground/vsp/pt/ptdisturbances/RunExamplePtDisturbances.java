@@ -314,7 +314,7 @@ public class RunExamplePtDisturbances {
 					if( leg.getMode().equals( TransportMode.pt ) ){
 						TransitPassengerRoute transitRoute = (TransitPassengerRoute) leg.getRoute();
 						if( transitRoute.getLineId().equals( disturbedLineId ) ){
-							TripStructureUtils.Trip affectedTrip = editTrips.findTripAtPlanElement( agent, pe );
+							TripStructureUtils.Trip affectedTrip = EditTrips.findTripAtPlanElement( agent, pe );
 							if( currentTrip != null && currentTrip.getTripElements().contains( pe ) ){
 								// current trip is disturbed
 								editTrips.replanCurrentTrip( agent, now, TransportMode.pt );
