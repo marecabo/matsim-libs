@@ -1,6 +1,7 @@
 package org.matsim.dsim;
 
 import org.matsim.api.core.v01.Scenario;
+import org.matsim.api.core.v01.TransportMode;
 import org.matsim.core.communication.*;
 import org.matsim.core.config.Config;
 import org.matsim.examples.ExamplesUtils;
@@ -20,6 +21,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 @CommandLine.Command(name = "dsim", mixinStandardHelpOptions = true, version = "1.0",
@@ -109,7 +111,7 @@ public class RunDistributedSim implements Callable<Integer> {
 
 		config.dsim().setThreads(threads);
 
-		Scenario s = ScenarioUtils.loadScenario(config);
+		Scenario s = createScenario(config);
 
 		Controler controler = new Controler(s, DistributedContext.create(comm, config));
 
@@ -124,6 +126,18 @@ public class RunDistributedSim implements Callable<Integer> {
 		comm.close();
 
 		return 0;
+	}
+
+	static Scenario createScenario(Config config) {
+		Scenario scenario = ScenarioUtils.loadScenario(config);
+
+		// Need to prepare network for freight // ! for Kelheim
+		var carandfreight = Set.of(TransportMode.car, "freight", TransportMode.ride);
+		scenario.getNetwork().getLinks().values().parallelStream()
+				.filter(l -> l.getAllowedModes().contains(TransportMode.car))
+				.forEach(l -> l.setAllowedModes(carandfreight));
+
+		return scenario;
 	}
 
 	public enum Type {
