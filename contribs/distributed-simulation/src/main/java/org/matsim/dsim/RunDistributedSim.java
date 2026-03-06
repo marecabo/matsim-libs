@@ -3,6 +3,7 @@ package org.matsim.dsim;
 import org.matsim.api.core.v01.Scenario;
 import org.matsim.core.communication.*;
 import org.matsim.core.config.Config;
+import org.matsim.examples.ExamplesUtils;
 import org.matsim.core.config.ConfigUtils;
 import org.matsim.core.config.consistency.UnmaterializedConfigGroupChecker;
 import org.matsim.core.config.groups.ControllerConfigGroup;
@@ -60,7 +61,7 @@ public class RunDistributedSim implements Callable<Integer> {
 		if (Files.exists(Path.of(scenario)))
 			return Path.of(scenario).toUri().toURL();
 		else if (!scenario.startsWith("http")) {
-			final URL resource = RunDistributedSim.class.getResource("/test/scenarios/" + scenario + "/");
+			final URL resource = ExamplesUtils.getTestScenarioURL(scenario);
 			return IOUtils.extendUrl(resource, "config.xml");
 		} else
 			return new URI(scenario).toURL();
